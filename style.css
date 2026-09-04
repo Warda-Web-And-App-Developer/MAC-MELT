@@ -1,0 +1,16 @@
+/* Custom CSS adjustments matching theme specifications */
+.hero-slider-bg {
+    background-image: linear-gradient(rgba(240, 249, 248, 0.551), rgba(240, 249, 248, 0.731)), url('./images/cupcakes.jpeg');
+} 
+
+.offer-bg {
+    background-image: linear-gradient(rgba(74, 59, 76, 0.75), rgba(74, 59, 76, 0.75)), url('./images/macarons.jpeg');
+}
+
+.rewards-bg {
+    background-image: linear-gradient(rgba(129, 191, 183, 0.85), rgba(74, 59, 76, 0.85)), url('./images/reward.jpeg');
+}
+
+html {
+    scroll-behavior: smooth;
+}

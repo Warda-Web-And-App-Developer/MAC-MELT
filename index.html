@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- External Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./images/brand.png" type="image/x-icon">
+    <title>MAC&MELT - Confectionery & Macarons</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bubbleGum: '#f3a2be',
+                        cottonCandy: '#ffd3dd',
+                        candyFloss: '#f0f9f8',
+                        mint: '#c6e6e3',
+                        wintergreen: '#81bfb7',
+                        brandDark: '#4a3b4c'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body class="bg-candyFloss text-brandDark font-sans antialiased selection:bg-bubbleGum selection:text-white">
+
+    <!-- STICKY NAVBAR -->
+    <header class="sticky top-0 z-50 bg-candyFloss/90 backdrop-blur-md border-b border-mint/50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- LEFT: Links -->
+            <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold tracking-wide">
+                <a href="#home" class="hover:text-bubbleGum transition-colors">HOME</a>
+                <a href="#categories" class="hover:text-bubbleGum transition-colors">CATOGORIES</a>
+                <a href="#offer" class="hover:text-bubbleGum transition-colors">OFFER</a>
+                <a href="#products" class="hover:text-bubbleGum transition-colors">PRODUCTS</a>
+                <a href="#premium" class="hover:text-bubbleGum transition-colors">PREMIUM</a>
+                <a href="#rewards" class="hover:text-bubbleGum transition-colors">BONUS REWARD</a>
+                <a href="#contact" class="hover:text-bubbleGum transition-colors">CONTACT</a>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-brandDark focus:outline-none text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- CENTER: Website Name & Brand Logo -->
+             <a href="#home" class="flex items-center text-center ">
+            <div class="flex items-center space-x-3">
+                <span class="font-serif font-bold text-xl tracking-wider text-brandDark">MAC&MELT</span>
+            </div>
+            </a>
+
+            <!-- LEFT/RIGHT CART BUTTON WITH CROSS REMOVE -->
+            <div class="flex items-center">
+                <button onclick="toggleCart()" class="relative bg-cottonCandy hover:bg-bubbleGum hover:text-white text-brandDark px-4 py-2 rounded-full font-medium text-sm transition-all shadow-sm flex items-center space-x-2">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="hidden sm:inline">CART</span>
+                    <span id="cart-badge" class="bg-bubbleGum text-white text-xs px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-candyFloss border-b border-mint px-4 pt-2 pb-4 space-y-3">
+            <a href="#home" class="block font-semibold hover:text-bubbleGum">HOME</a>
+            <a href="#categories" class="block font-semibold hover:text-bubbleGum">CATOGORIES</a>
+            <a href="#offer" class="block font-semibold hover:text-bubbleGum">OFFER</a>
+            <a href="#products" class="block font-semibold hover:text-bubbleGum">PRODUCTS</a>
+            <a href="#premium" class="block font-semibold hover:text-bubbleGum">PREMIUM</a>
+            <a href="#rewards" class="block font-semibold hover:text-bubbleGum">BONUS REWARD</a>
+            <a href="#contact" class="block font-semibold hover:text-bubbleGum">CONTACT</a>
+        </div>
+    </header>
+    
+
+    <!-- CART SIDE DRAWER -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-brandDark/40 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-candyFloss shadow-2xl flex flex-col">
+                <div class="flex items-center justify-between px-6 py-5 bg-mint/50 border-b border-mint">
+                    <h2 class="text-lg font-serif font-bold text-brandDark">Your Shopping Cart</h2>
+                    <button onclick="toggleCart()" class="text-brandDark hover:text-bubbleGum text-xl">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <p class="text-gray-500 text-center py-8">Your cart is currently empty.</p>
+                </div>
+                <div class="border-t border-mint p-6 bg-white/50">
+                    <div class="flex justify-between font-bold text-lg mb-4">
+                        <span>Total:</span>
+                        <span id="cart-total">$0.00 USD</span>
+                    </div>
+                    <button onclick="alert('Proceeding to checkout!')" class="w-full bg-bubbleGum hover:bg-wintergreen text-white font-semibold py-3 rounded-xl transition-all shadow-md">
+                        Checkout Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative bg-cover bg-center py-24 lg:py-32 overflow-hidden hero-slider-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-cottonCandy text-brandDark text-sm font-semibold tracking-wider uppercase border border-bubbleGum/40 shadow-sm">
+                Artisanal Confectionery
+            </div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-brandDark mb-6 leading-tight">
+                Our confectionery prepares the most delicious, beautiful, and delicate cupcakes.
+            </h1>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                <a href="#products" class="bg-bubbleGum hover:bg-wintergreen text-white font-semibold px-8 py-4 rounded-full shadow-lg transition-all duration-300">
+                    Explore Products
+                </a>
+                <a href="#offer" class="bg-mint hover:bg-cottonCandy text-brandDark font-semibold px-8 py-4 rounded-full shadow-md transition-all duration-300">
+                    View Special Offers
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- POPULAR CATEGORIES SECTION (9 items fitting in one line without slider) -->
+    <section id="categories" class="py-16 bg-white/60 border-y border-mint/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-brandDark mb-8 text-center">Popular Categories</h2>
+            
+            <div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-4 text-center">
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/european cake cat.jpeg" title="European Cakes" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">European Cakes</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/ice cream cake cat.jpeg" title="Ice Cream Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Ice Cream Cakes</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/custom cake cat.jpeg" title="Custom Cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Custom Cakes</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/weight cake cat.jpeg" title="Weight Cakes" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Weight Cakes</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/macarons-cat.jpeg" title="Macarons" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Macarons</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/cup cake cat.jpeg" title="Cup Cakes" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Cup Cakes</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/donuts cat.jpeg" title="Donuts" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Donuts</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/croissant cat.jpeg" title="Croissant" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Croissants</h3>
+                </div>
+                <div class="group cursor-pointer">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden mb-2 border-2 border-mint shadow-sm group-hover:border-bubbleGum transition-all">
+                        <img src="./images/cake pops cat.jpeg" title="Cake Pops"  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <h3 class="font-semibold text-xs text-brandDark">Cake Pops</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFER SECTION -->
+    <section id="offer" class="py-20 relative bg-cover bg-center text-white offer-bg">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <span class="bg-bubbleGum text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 inline-block">Special Offer</span>
+            <h2 class="text-3xl sm:text-5xl font-serif font-bold mb-6">
+                Macaron sets<br>
+                <span class="text-lg sm:text-2xl font-normal text-candyFloss">Treat yourself and your loved ones to a very tasty and exquisite delicacy</span>
+            </h2>
+            <button onclick="addToCart('Macaron sets', 18.50, './images/macarons.jpeg')" class="bg-cottonCandy hover:bg-bubbleGum text-brandDark hover:text-white font-bold px-8 py-4 rounded-full transition-all shadow-lg mt-4">
+                Choose a set
+            </button>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION (25 items batched in groups of 5 via slider) -->
+    <section id="products" class="py-20 bg-candyFloss/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-brandDark mb-6">PRODUCTS</h2>
+                <div class="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm sm:text-base font-semibold">
+                    <button onclick="filterProducts('All')" class="product-tab text-bubbleGum border-b-2 border-bubbleGum pb-1 transition-all">All</button>
+                    <button onclick="filterProducts('Sale')" class="product-tab text-gray-500 hover:text-bubbleGum pb-1 transition-all">Sale</button>
+                    <button onclick="filterProducts('New Arrivals')" class="product-tab text-gray-500 hover:text-bubbleGum pb-1 transition-all">New Arrivals</button>
+                    <button onclick="filterProducts('Top Sellers')" class="product-tab text-gray-500 hover:text-bubbleGum pb-1 transition-all">Top Sellers</button>
+                </div>
+            </div>
+
+            <!-- Product Grid Container (Showing 5 items per view) -->
+            <div class="relative">
+                <div class="flex justify-end items-center mb-4 space-x-2">
+                    <button onclick="slideProducts(-1)" class="w-10 h-10 rounded-full bg-mint hover:bg-bubbleGum hover:text-white text-brandDark flex items-center justify-center transition-colors shadow-sm"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button onclick="slideProducts(1)" class="w-10 h-10 rounded-full bg-mint hover:bg-bubbleGum hover:text-white text-brandDark flex items-center justify-center transition-colors shadow-sm"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <!-- Populated dynamically via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIUM SECTION -->
+    <section id="premium" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-widest text-wintergreen font-bold">Exclusive Selection</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-brandDark mt-2">PREMIUM</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Left: Set of 5 cake pops -->
+                <div class="bg-candyFloss/50 rounded-3xl p-8 border border-mint flex flex-col sm:flex-row items-center gap-6 shadow-sm">
+                    <div class="w-full sm:w-1/2 h-56 rounded-2xl overflow-hidden shadow-sm">
+                        <img src="./images/cake pops set.jpeg" alt="Set of five cake pops" class="w-full h-full object-cover">
+                    </div>
+                    <div class="w-full sm:w-1/2 text-center sm:text-left">
+                        <h3 class="text-2xl font-serif font-bold text-brandDark mb-2">Set of five cake pops<br>$4.92 USD</h3>
+                        <button onclick="addToCart('Set of five cake pops', 6.92, './images/cake pops set.jpeg')" class="bg-bubbleGum hover:bg-wintergreen text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-md mt-4">
+                            Purchase
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Custom cake -->
+                <div class="bg-candyFloss/50 rounded-3xl p-8 border border-mint flex flex-col sm:flex-row items-center gap-6 shadow-sm">
+                    <div class="w-full sm:w-1/2 h-56 rounded-2xl overflow-hidden shadow-sm">
+                        <img src="./images/custom cake.jpeg" alt="Custom cake" class="w-full h-full object-cover">
+                    </div>
+                    <div class="w-full sm:w-1/2 text-center sm:text-left">
+                        <h3 class="text-2xl font-serif font-bold text-brandDark mb-2">Custom cake<br>$14.54 USD</h3>
+                        <button onclick="addToCart('Custom cake', 34.54, './images/custom cake.jpeg')" class="bg-bubbleGum hover:bg-wintergreen text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-md mt-4">
+                            Purchase
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BONUS REWARD SECTION -->
+    <section id="rewards" class="py-20 relative bg-cover bg-center text-white rewards-bg">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="w-16 h-16 bg-cottonCandy text-brandDark rounded-full flex items-center justify-center mx-auto mb-6 text-2xl shadow-lg">
+                <i class="fa-solid fa-gift"></i>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-serif font-bold mb-4">Bonus Reward</h2>
+            <p class="text-lg sm:text-xl text-candyFloss mb-8 leading-relaxed max-w-xl mx-auto font-medium">
+                Order goods worth $18.85 USD and get a set of mini donuts as a gift!
+            </p>
+            <button onclick="addToCart('Set Of Mini Donuts', 18.85, './images/reward.jpeg')">
+            <a href="#rewards" class="inline-block bg-white hover:bg-cottonCandy text-brandDark font-bold px-8 py-4 rounded-full transition-all shadow-lg">
+                Claim Reward Now
+            </a>
+        </button>
+            
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-20 bg-candyFloss/60 border-t border-mint/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-3xl font-serif font-bold text-brandDark mb-4">Contact Us</h2>
+                    <p class="text-brandDark/70 mb-6 leading-relaxed">Reach out for custom order inquiries, event caterings, or collaborative opportunities.</p>
+                    <div class="space-y-4 text-brandDark">
+                        <div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-mint flex items-center justify-center"><i class="fa-solid fa-phone"></i></div><span>+1 (800) MAC-MELT</span></div>
+                        <div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-mint flex items-center justify-center"><i class="fa-solid fa-envelope"></i></div><span>hello@macandmelt.com</span></div>
+                        <div class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-mint flex items-center justify-center"><i class="fa-solid fa-location-dot"></i></div><span>742 Confectionery Lane, Sweet Valley</span></div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-mint">
+                    <form class="space-y-4" action="https://formspree.io/f/mzebbyjz" method="post">
+                        <div><label class="block text-sm font-semibold text-brandDark mb-1">Name</label><input type="text" name="full-name"class="w-full px-4 py-3 rounded-xl border border-mint focus:outline-none focus:border-bubbleGum bg-candyFloss/30"></div>
+                        <div><label class="block text-sm font-semibold text-brandDark mb-1">Email</label><input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-mint focus:outline-none focus:border-bubbleGum bg-candyFloss/30"></div>
+                        <div><label class="block text-sm font-semibold text-brandDark mb-1">Message</label><textarea rows="4" name="Message" class="w-full px-4 py-3 rounded-xl border border-mint focus:outline-none focus:border-bubbleGum bg-candyFloss/30"></textarea></div>
+                        <button type="submit" class="w-full bg-bubbleGum hover:bg-wintergreen text-white font-semibold py-3 rounded-xl transition-all shadow-md">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="bg-brandDark text-candyFloss py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <span class="font-serif font-bold text-xl tracking-wider text-white">MAC&MELT</span>
+            </div>
+            <p class="text-sm text-candyFloss/70 text-center md:text-left">&copy; 2026 MAC&MELT. All rights reserved.</p>
+            <div class="flex space-x-4 text-lg">
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-bubbleGum flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-bubbleGum flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 hover:bg-bubbleGum flex items-center justify-center transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External JavaScript File -->
+    <script src="app.js"></script>
+</body>
+</html>
